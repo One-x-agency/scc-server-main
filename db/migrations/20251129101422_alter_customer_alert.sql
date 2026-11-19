@@ -1,0 +1,23 @@
+-- migrate:up
+
+
+alter table customer_alerts rename to customer_custom_alert_schemas;
+
+alter table customer_custom_alert_schemas rename constraint pk_customer_alerts to pk_customer_custom_alert_schemas;
+alter table customer_custom_alert_schemas rename constraint fk_customer_alerts_customer_id to fk_customer_custom_alert_schemas_customer_id;
+alter table customer_custom_alert_schemas rename constraint uk_customer_alerts_customer_id_field_name_operator to uk_customer_custom_alert_schemas_customer_id_field_name_operator;
+alter table customer_custom_alert_schemas rename constraint uk_customer_alerts_customer_id_name to uk_customer_custom_alert_schemas_customer_id_name;
+
+
+alter table customer_custom_alert_schemas add column message text;
+
+-- migrate:down
+
+alter table customer_custom_alert_schemas rename constraint pk_customer_custom_alert_schemas to pk_customer_alerts;
+alter table customer_custom_alert_schemas rename constraint fk_customer_custom_alert_schemas_customer_id to fk_customer_alerts_customer_id;
+alter table customer_custom_alert_schemas rename constraint uk_customer_custom_alert_schemas_customer_id_field_name_operator to uk_customer_alerts_customer_id_field_name_operator;
+alter table customer_custom_alert_schemas rename constraint uk_customer_custom_alert_schemas_customer_id_name to uk_customer_alerts_customer_id_name;
+
+alter table customer_custom_alert_schemas rename to customer_alerts;
+alter table customer_alerts drop column message;
+
